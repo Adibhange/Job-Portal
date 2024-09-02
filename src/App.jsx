@@ -1,15 +1,52 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import { Button } from "./components/ui/button";
+import Layout from "./layouts/Layout";
+import Home from "./pages/Home";
+import JobListing from "./pages/JobListing";
+import Job from "./pages/Job";
+import Onboarding from "./pages/Onboarding";
+import MyJobs from "./pages/MyJobs";
+import PostJob from "./pages/PostJob";
+import SavedJobs from "./pages/SavedJobs";
+
+const router = createBrowserRouter([
+	{
+		element: <Layout />,
+		children: [
+			{
+				path: "/",
+				element: <Home />,
+			},
+			{
+				path: "/jobs",
+				element: <JobListing />,
+			},
+			{
+				path: "/job/:id",
+				element: <Job />,
+			},
+			{
+				path: "/onboarding",
+				element: <Onboarding />,
+			},
+			{
+				path: "/my-jobs",
+				element: <MyJobs />,
+			},
+			{
+				path: "/post-job",
+				element: <PostJob />,
+			},
+			{
+				path: "/saved-lob",
+				element: <SavedJobs />,
+			},
+		],
+	},
+]);
 
 function App() {
-	return (
-		<>
-			<div>
-				<h1 className='underline'>Hello World</h1>
-				<Button>Login</Button>
-			</div>
-		</>
-	);
+	return <RouterProvider router={router} />;
 }
 
 export default App;
