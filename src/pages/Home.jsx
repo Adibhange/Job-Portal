@@ -13,6 +13,13 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
+import Faqs from "../data/faqs.json";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../components/ui/accordion";
 
 const Home = () => {
   return (
@@ -95,7 +102,18 @@ const Home = () => {
       </section>
 
       {/* Accordian */}
-      <section></section>
+      <section>
+        <Accordion type="single" collapsible>
+          {Faqs.map((Faq, index) => {
+            return (
+              <AccordionItem key={index} value={`item-${index + 1}`}>
+                <AccordionTrigger>{Faq.question}</AccordionTrigger>
+                <AccordionContent>{Faq.answer}</AccordionContent>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
+      </section>
     </section>
   );
 };
