@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "../components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import Companies from "../data/companies.json";
 
 const Home = () => {
   return (
@@ -33,7 +40,27 @@ const Home = () => {
       </section>
 
       {/* Carousel */}
-      <section></section>
+      <section>
+        <Carousel
+          plugins={[Autoplay({ delay: 3000 })]}
+          opts={{ loop: true }}
+          className="w-full py-10"
+        >
+          <CarouselContent className="flex items-center gap-5 sm:gap-20">
+            {Companies.map(({ name, id, path }) => {
+              return (
+                <CarouselItem key={id} className="basis-1/3 lg:basis-1/6">
+                  <img
+                    src={path}
+                    alt={name}
+                    className="h-9 object-contain sm:h-14"
+                  />
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
+      </section>
 
       {/* Banner */}
       <section></section>
