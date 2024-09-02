@@ -7,6 +7,12 @@ import {
 } from "../components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import Companies from "../data/companies.json";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 
 const Home = () => {
   return (
@@ -63,7 +69,9 @@ const Home = () => {
       </section>
 
       {/* Banner */}
-      <section></section>
+      <section>
+        <img src="/banner.jpeg" alt="Banner" className="w-full" />
+      </section>
 
       {/* Card */}
       <section></section>
