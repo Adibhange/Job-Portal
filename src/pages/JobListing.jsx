@@ -39,7 +39,13 @@ const JobListing = () => {
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {jobs?.length ? (
             jobs.map((job) => {
-              return <JobCard key={job.id} job={job} />;
+              return (
+                <JobCard
+                  key={job.id}
+                  job={job}
+                  savedInit={job.saved?.length > 0}
+                />
+              );
             })
           ) : (
             <div>No jobs found 😞</div>
