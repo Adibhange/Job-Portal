@@ -7,7 +7,7 @@ export async function applyToJob(token, _, jobData) {
   const fileName = `resume-${random}-${jobData.candidate_id}`;
 
   const { error: uploadResumeError } = await supabase.storage
-    .from("resumes")
+    .from("resume")
     .upload(fileName, jobData.resume);
   if (uploadResumeError) {
     console.error("Error while uploading resume job:", uploadResumeError);
