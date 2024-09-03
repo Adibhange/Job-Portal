@@ -9,7 +9,7 @@ const useFetch = (callback, options = {}) => {
   const { session } = useSession();
 
   const fn = async (...args) => {
-    setLoading(false);
+    setLoading(true);
     setError(null);
 
     try {
