@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import ApplyJob from "../components/ApplyJob";
+import ApplicationCard from "../components/ApplicationCard";
 
 const Job = () => {
   const { isLoaded, user } = useUser();
@@ -114,6 +115,18 @@ const Job = () => {
           fetchJob={fnJob}
           applied={job?.applications?.find((ap) => ap.candidate_id === user.id)}
         />
+      )}
+
+      {/* Show Application */}
+      {job?.applications?.length > 0 && job?.recruiter_id === user?.id && (
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl font-bold sm:text-3xl">Applications</h2>
+          {job?.applications.map((application) => {
+            return (
+              <ApplicationCard key={application.id} application={application} />
+            );
+          })}
+        </div>
       )}
     </section>
   );
