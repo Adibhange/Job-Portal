@@ -1,11 +1,18 @@
 import { useUser } from "@clerk/clerk-react";
 import { useParams } from "react-router-dom";
-import { getSingleJob } from "../api/jobsApi";
+import { getSingleJob, updateHiringStatus } from "../api/jobsApi";
 import useFetch from "../hooks/useFetch";
 import { useEffect } from "react";
 import { BarLoader } from "react-spinners";
 import { Briefcase, DoorClosed, DoorOpen, MapPin } from "lucide-react";
 import MDEditor from "@uiw/react-md-editor";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 
 const Job = () => {
   const { isLoaded, user } = useUser();
@@ -16,6 +23,16 @@ const Job = () => {
     data: job,
     loading: loadingJob,
   } = useFetch(getSingleJob, { job_id: id });
+
+  const { fn: fnHiringStatus, loading: loadingHiringStatus } = useFetch(
+    updateHiringStatus,
+    { job_id: id },
+  );
+
+  const handleHiringStatusChange = (value) => {
+    const isOpen = value === "open";
+    fnHiringStatus(isOpen).then(() => fnJob());
+  };
 
   useEffect(() => {
     if (isLoaded) fnJob();
@@ -33,6 +50,7 @@ const Job = () => {
         <img src={job?.company?.logo_url} alt="Com Logo" className="h-12" />
       </div>
 
+      {/* Job Details */}
       <div className="flex justify-between">
         <div className="flex gap-2">
           <MapPin /> {job?.location}
@@ -53,6 +71,29 @@ const Job = () => {
         </div>
       </div>
 
+      {/* Hiring Status */}
+      {loadingHiringStatus && (
+        <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
+      )}
+      {job?.recruiter_id === user?.id && (
+        <Select onValueChange={handleHiringStatusChange}>
+          <SelectTrigger
+            className={`w-full ${job?.isOpen ? "bg-green-950" : "bg-red-950"}`}
+          >
+            <SelectValue
+              placeholder={
+                "Hiring status" + (job?.isOpen ? " (Open)" : " (Closed)")
+              }
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="open">Open</SelectItem>
+            <SelectItem value="closed">Closed</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
+
+      {/* About the job */}
       <h2 className="text-2xl font-bold sm:text-3xl">About the job</h2>
       <p className="sm:text-lg">{job?.description}</p>
 
