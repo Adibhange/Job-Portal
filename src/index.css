@@ -73,3 +73,9 @@
     @apply gradient bg-clip-text text-transparent;
   }
 }
+
+.wmde-markdown ul {
+  list-style-type: disc;
+  padding-left: 25px;
+  color: white;
+}
