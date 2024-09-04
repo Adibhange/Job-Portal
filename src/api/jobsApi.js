@@ -1,4 +1,4 @@
-import supabaseClient from "../utils/supabase";
+import supabaseClient, { supabaseUrl } from "../utils/supabase";
 
 export async function getJobs(token, { location, company_id, searchQuery }) {
   const supabase = await supabaseClient(token);
@@ -72,5 +72,40 @@ export async function addNewJob(token, _, jobData) {
     console.error("Error while adding new job:", error);
     return null;
   }
+  return data;
+}
+
+export async function addNewCompany(token, _, companyData) {
+  const supabase = await supabaseClient(token);
+
+  const random = Math.floor(Math.random() * 50000);
+  const fileName = `logo-${random}-${companyData.name}`;
+
+  const { error: uploadLogoError } = await supabase.storage
+    .from("company-logo")
+    .upload(fileName, companyData.logo);
+
+  if (uploadLogoError) {
+    console.error("Error while uploading company logo:", uploadLogoError);
+    return null;
+  }
+
+  const logo_url = `${supabaseUrl}/storage/v1/object/public/company-logo/${fileName}`;
+
+  const { data, error } = await supabase
+    .from("companies")
+    .insert([
+      {
+        name: companyData.name,
+        logo_url: logo_url,
+      },
+    ])
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error while adding new company.");
+  }
+
   return data;
 }
