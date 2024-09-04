@@ -14,7 +14,7 @@ export async function applyToJob(token, _, jobData) {
     return null;
   }
 
-  const resume = `${supabaseUrl}/storage/v1/object/public/resumes/${fileName}`;
+  const resume = `${supabaseUrl}/storage/v1/object/public/resume/${fileName}`;
 
   const { data, error } = await supabase
     .from("applications")
